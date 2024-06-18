@@ -57,6 +57,21 @@ def account_balances():
         "data": data
     })
 
+@app.route('/balance', methods=['GET'])
+#ASSET=BTC
+def account_balance():
+    # SPOT #
+    api_key_spot_tes = "LTSd8ozvwoH152vg9LvM0BC4dD09DO4Tlkjdf8eyCIwhWa8aDVtlxboJ1oUdDPi9"
+    secret_key_spot_tes = "H4wBD9yw1uJIICBycEX6ddLh3UVWG5dTamy6OkcxpAjQb1mCAowjYisOgmE7DE8o"
+    key = request.args.get('key')
+    secret = request.args.get('secret')
+    asset = request.args.get('asset')
+    bin = Binance(key,secret)
+    data = bin.balance(asset)
+    # print(data)
+    return jsonify({
+        "data": data
+    })
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

@@ -16,16 +16,12 @@ class Binance:
         balances = self.client.get_account()
         for balance in balances['balances']:
             if float(balance['locked']) > 0 or float(balance['free']) > 0:
-                print('%s: %s' % (balance['asset'], balance['free']))
                 data.append({"asset":balance['asset'], "free":balance['free']})
         return data
 
-
     def balance(self, asset):
-
         balances = self.client.get_account()
         balances['balances'] = {item['asset']: item for item in balances['balances']}
-        print(balances['balances'][asset]['free'])
         return balances['balances'][asset]['free']
 
     def history_market(self,market,limit=50):
