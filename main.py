@@ -28,9 +28,6 @@ def initDB():
 
 @app.route('/ping', methods=['GET'])
 def ping():
-    # SPOT #
-    api_key_spot_tes = "LTSd8ozvwoH152vg9LvM0BC4dD09DO4Tlkjdf8eyCIwhWa8aDVtlxboJ1oUdDPi9"
-    secret_key_spot_tes = "H4wBD9yw1uJIICBycEX6ddLh3UVWG5dTamy6OkcxpAjQb1mCAowjYisOgmE7DE8o"
     key = request.args.get('key')
     secret = request.args.get('secret')
     bin = Binance(key, secret)
@@ -43,6 +40,21 @@ def ping():
     # print(data)
     return jsonify({
         "data": result
+    })
+
+
+@app.route('/balances',methods=['GET'])
+def account_balances():
+    # SPOT #
+    api_key_spot_tes = "LTSd8ozvwoH152vg9LvM0BC4dD09DO4Tlkjdf8eyCIwhWa8aDVtlxboJ1oUdDPi9"
+    secret_key_spot_tes = "H4wBD9yw1uJIICBycEX6ddLh3UVWG5dTamy6OkcxpAjQb1mCAowjYisOgmE7DE8o"
+    key = request.args.get('key')
+    secret = request.args.get('secret')
+    bin = Binance(key,secret)
+    data = bin.balances()
+    # print(data)
+    return jsonify({
+        "data": data
     })
 
 

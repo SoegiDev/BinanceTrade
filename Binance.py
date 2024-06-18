@@ -10,6 +10,7 @@ class Binance:
     def ping_live(self):
         data = self.client.ping()
         return data
+
     def balances(self):
         data = []
         balances = self.client.get_account()
