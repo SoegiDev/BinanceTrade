@@ -17,7 +17,9 @@ class Spot:
         self.secret = secret
 
     def account_info(self):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV")=="dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         # Get server timestamp
         try:
             result = client.account()
