@@ -12,7 +12,7 @@ app = Flask(__name__)
 def hello():
     return "<h1 style='color:blue'>Hello There! BOT TRADE ALREADY STEP ACCOUNT BALANCES</h1>"
 
-
+#saldklsakdlsakd
 @app.route('/initdb')
 def initDB():
     try:
