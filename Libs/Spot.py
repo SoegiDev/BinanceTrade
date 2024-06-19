@@ -30,7 +30,9 @@ class Spot:
             return None
 
     def order_all(self, symbol, limit):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         # Get server timestamp
         try:
             result = client.get_orders(symbol=symbol, limit=limit)
@@ -40,7 +42,9 @@ class Spot:
             return None
 
     def order(self, symbol, orderId=None, ):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             result = client.get_order(symbol, orderId=orderId)
             print(result)
@@ -51,7 +55,9 @@ class Spot:
             return result
 
     def my_trades(self, symbol, orderId=None, startTime=None, endTime=None, fromId=None, limit=None):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             result = client.my_trades(symbol, orderId=orderId, startTime=startTime, endTime=endTime, fromId=fromId,
                                       limit=limit)
@@ -63,7 +69,9 @@ class Spot:
             return result
 
     def make_orders(self, symbol,side,type,quantity,price,stop_price):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             params = {"quantity": quantity,"price": price,"stopPrice": stop_price}
             query = urlencode(params)
@@ -76,7 +84,9 @@ class Spot:
             return result
 
     def ticker_price_single(self, symbol):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             result = client.ticker_price(symbol)
             print(result)
@@ -87,7 +97,9 @@ class Spot:
 
     def ticker_price_list(self, symbols):
         params = None
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             result = client.ticker_price()
             print(symbols)
@@ -97,7 +109,9 @@ class Spot:
             return None
 
     def ticker_price_single24(self, symbol):
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             result = client.ticker_24hr(symbol)
             print(result)
@@ -108,7 +122,9 @@ class Spot:
 
     def ticker_price_list24(self, symbols):
         params = None
-        client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
             result = client.ticker_24hr()
             print(symbols)
