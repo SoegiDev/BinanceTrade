@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from binance.spot import Spot as Client
 from urllib.parse import urlencode
@@ -8,7 +10,7 @@ load_dotenv()
 
 
 class Spot:
-    BASEURL = 'https://testnet.binance.vision'
+    BASEURL = os.getenv("BASEURL")
 
     def __init__(self, key, secret):
         self.key = key
