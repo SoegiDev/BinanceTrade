@@ -11,8 +11,6 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return "<h1 style='color:blue'>Hello There! BOT TRADE ALREADY STEP ACCOUNT BALANCES</h1>"
-
-
 @app.route('/initdb')
 def initDB():
     try:
