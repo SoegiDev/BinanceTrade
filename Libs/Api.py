@@ -18,7 +18,7 @@ except ImportError:
 class Api:
     BASE_URL = "https://www.binance.com/api/v1"
     BASE_URL_V3 = "https://api.binance.com/api/v3"
-    BASE_URL_V3_TES = "https://testnet.binance.vision/api/v3"
+    #BASE_URL_V3_TES = "https://testnet.binance.vision/api/v3"
     PUBLIC_URL = "https://www.binance.com/exchange/public/product"
 
     def __init__(self, key, secret):
@@ -27,26 +27,26 @@ class Api:
 
     #PING SERVER
     def ping(self):
-        path = "%s/ping" % self.BASE_URL_V3_TES
+        path = "%s/ping" % self.BASE_URL_V3
         return requests.get(path, timeout=30, verify=True).status_code
 
     #GET HISTORY
     def get_history(self, market, limit=50):
-        path = "%s/aggTrades" % self.BASE_URL_V3_TES
+        path = "%s/aggTrades" % self.BASE_URL_V3
         params = {"symbol": market, "limit": limit}
         return self._get_no_sign(path, params)
 
     def get_order_books(self, market, limit=50):
-        path = "%s/depth" % self.BASE_URL_V3_TES
+        path = "%s/depth" % self.BASE_URL_V3
         params = {"symbol": market, "limit": limit}
         return self._get_no_sign(path, params)
 
     def get_account(self):
-        path = "%s/account" % self.BASE_URL_V3_TES
+        path = "%s/account" % self.BASE_URL_V3
         return self._get(path, {})
 
     def get_products(self):
-        path = "%s/exchangeInfo" % self.BASE_URL_V3_TES
+        path = "%s/exchangeInfo" % self.BASE_URL_V3
         params = {}
         return self._get_no_sign(path, params)
         # return requests.get(self.BASE_URL_V3_TES, timeout=30, verify=True).json()
@@ -55,7 +55,7 @@ class Api:
 
 
     def get_all_ticker(self):
-        path = "%s/ticker/24hr" % self.BASE_URL_V3_TES
+        path = "%s/ticker/24hr" % self.BASE_URL_V3
         params = {}
         return self._get_no_sign(path, params)
 
@@ -65,12 +65,12 @@ class Api:
         return self._post(path, params)
 
     def get_klines(self, market, interval, startTime, endTime):
-        path = "%s/klines" % self.BASE_URL_V3_TES
+        path = "%s/klines" % self.BASE_URL_V3
         params = {"symbol": market, "interval": interval, "startTime": startTime, "endTime": endTime}
         return self._get_no_sign(path, params)
 
     def sell_limit(self, market, quantity, rate):
-        path = "%s/order" % self.BASE_URL_V3
+        path = "%s/order" % self.BASE_URL
         params = self._order(market, quantity, "SELL", rate)
         return self._post(path, params)
 
@@ -100,15 +100,15 @@ class Api:
         return requests.delete(url, headers=header,timeout=30, verify=True).json()
 
     def get_server_time(self):
-        path = "%s/time" % self.BASE_URL_V3_TES
+        path = "%s/time" % self.BASE_URL_V3
         return requests.get(path, timeout=30, verify=True).json()
 
     def get_exchange_info(self):
-        path = "%s/exchangeInfo" % self.BASE_URL_V3_TES
+        path = "%s/exchangeInfo" % self.BASE_URL_V3
         return requests.get(path, timeout=30, verify=True).json()
 
     def get_open_orders(self, market):
-        path = "%s/openOrders" % self.BASE_URL_V3_TES
+        path = "%s/openOrders" % self.BASE_URL_V3
         params = {"symbol": market}
         return self._get(path, params)
 
