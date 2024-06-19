@@ -15,13 +15,14 @@ class Binance:
         data = self.client.ping()
         return data
 
-    def balances(self):
+    def account_info(self):
         data = []
         balances = self.client.get_account()
-        for balance in balances['balances']:
-            if float(balance['locked']) > 0 or float(balance['free']) > 0:
-                data.append({"asset": balance['asset'], "free": balance['free']})
-        return data
+        print(balances)
+        # for balance in balances['balances']:
+        #     if float(balance['locked']) > 0 or float(balance['free']) > 0:
+        #         data.append({"asset": balance['asset'], "free": balance['free']})
+        #return balances
 
     def balance(self, asset):
         balances = self.client.get_account()
