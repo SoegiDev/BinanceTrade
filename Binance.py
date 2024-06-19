@@ -1,7 +1,11 @@
+import math
+
 from Libs.Api import Api
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 
 import time
+
+
 class Binance:
 
     def __init__(self, api_key, secret_key):
@@ -16,7 +20,7 @@ class Binance:
         balances = self.client.get_account()
         for balance in balances['balances']:
             if float(balance['locked']) > 0 or float(balance['free']) > 0:
-                data.append({"asset":balance['asset'], "free":balance['free']})
+                data.append({"asset": balance['asset'], "free": balance['free']})
         return data
 
     def balance(self, asset):
@@ -24,18 +28,18 @@ class Binance:
         balances['balances'] = {item['asset']: item for item in balances['balances']}
         return balances['balances'][asset]['free']
 
-    def history_market(self,market,limit=50):
+    def history_market(self, market, limit=50):
         data = []
-        history = self.client.get_history(market,limit)
+        history = self.client.get_history(market, limit)
         return history
 
     def server_status(self):
-        systemT = int(time.time() * 1000)  # timestamp when requested was launch
-        serverT = self.client.get_server_time()  # timestamp when server replied
-        lag = int(serverT['serverTime'] - systemT)
+        system_t = int(time.time() * 1000)  # timestamp when requested was launch
+        server_t = self.client.get_server_time()  # timestamp when server replied
+        lag = int(server_t['serverTime'] - system_t)
 
-        print('System timestamp: %d' % systemT)
-        print('Server timestamp: %d' % serverT['serverTime'])
+        print('System timestamp: %d' % system_t)
+        print('Server timestamp: %d' % server_t['serverTime'])
         print('Lag: %d' % lag)
         msg_good = "Good"
         msg_not_good = "Not Good"
@@ -48,15 +52,14 @@ class Binance:
         else:
             print('\nGood (0ms > lag > 1000ms)')
             return msg_good
-        return
 
-    def open_orders(self,market):
+    def open_orders(self, market):
         return self.client.get_open_orders(market)
 
     def tickers(self):
         return self.client.get_all_ticker()
 
-    def market_value(self, symbol, interval, date_s , date_f=""):
+    def market_value(self, symbol, interval, date_s, date_f=""):
         date_s = datetime.strptime(date_s, "%d/%m/%Y %H:%M:%S")
 
         if date_f != "":
@@ -75,8 +78,15 @@ class Binance:
                 high = kline[2]
                 low = kline[3]
                 close = kline[4]
-                return {"timestamp":timestamp,"open":open,"high":high,"low":low,"close":close}
+                return {"timestamp": timestamp, "open": open, "high": high, "low": low, "close": close}
                 # return ('[%s] Open: %s High: %s Low: %s Close: %s' % (
                 # datetime.fromtimestamp(kline[0] / 1000), kline[1], kline[2], kline[3], kline[4]))
 
         return
+
+    def step_size_to_precision(ss):
+        return ss.find('1') - 1
+
+    def format_value(val, step_size_str):
+        precision = Binance.step_size_to_precision(step_size_str)
+        return "{:0.0{}f}".format(val, precision)
