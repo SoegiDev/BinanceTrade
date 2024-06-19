@@ -83,6 +83,7 @@ class Spot:
             print(str(e))  # An exception occurred: ZeroDivisionError
             return None
 
+
     def ticker_price_list(self, symbols):
         params = None
         client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
