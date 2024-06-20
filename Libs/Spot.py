@@ -57,6 +57,18 @@ class Spot:
             print(str(e))
             return None
 
+    def order_all_in(self):
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        # Get server timestamp
+        try:
+            result = client.get_open_orders()
+            return result
+        except Exception as e:
+            print(str(e))
+            return None
+
     def order(self, symbol, orderId=None, ):
         client = Client(api_key=self.key, api_secret=self.secret)
         if os.getenv("ENV") == "dev":

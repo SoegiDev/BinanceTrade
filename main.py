@@ -4,13 +4,15 @@ from flask import Flask, render_template, request, jsonify
 from Libs.Database import Database
 from Binance import Binance
 from Libs.Spot import Spot
-from urllib.parse import  urlencode
+from urllib.parse import urlencode
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def hello():
     return "<h1 style='color:blue'>Hello There! BOT TRADE ALREADY STEP ACCOUNT BALANCES</h1>"
+
 
 #saldklsakdlsakd
 @app.route('/initdb')
@@ -79,7 +81,20 @@ def get_order():
     symbol = request.args.get('symbol')
     orderId = request.args.get('orderId')
     data = Spot(key, secret)
-    result = data.order(symbol,orderId)
+    result = data.order(symbol, orderId)
+    # print(data)
+    return jsonify({
+        "data": result
+    })
+
+
+@app.route('/get-order-all', methods=['GET'])
+def get_order_all():
+    # SPOT #
+    key = request.args.get('key')
+    secret = request.args.get('secret')
+    data = Spot(key, secret)
+    result = data.order_all_in()
     # print(data)
     return jsonify({
         "data": result
@@ -98,11 +113,12 @@ def my_trades():
     fromId = request.args.get('fromId')
     limit = request.args.get('limit')
     data = Spot(key, secret)
-    result = data.my_trades(symbol,orderId,startTime,endTime,fromId,limit)
+    result = data.my_trades(symbol, orderId, startTime, endTime, fromId, limit)
     # print(data)
     return jsonify({
         "data": result
     })
+
 
 @app.route('/make-orders', methods=['GET'])
 def make_orders():
@@ -116,11 +132,12 @@ def make_orders():
     price = request.args.get('price')
     stop_price = request.args.get('stop_price')
     data = Spot(key, secret)
-    result = data.make_orders(symbol,side,type,quantity,price,stop_price)
+    result = data.make_orders(symbol, side, type, quantity, price, stop_price)
     # print(data)
     return jsonify({
         "data": result
     })
+
 
 @app.route('/get-price-single', methods=['GET'])
 def ticker_price_single():
@@ -135,6 +152,7 @@ def ticker_price_single():
         "data": result
     })
 
+
 @app.route('/get-price-list', methods=['GET'])
 def ticker_price_list():
     # SPOT #
@@ -147,6 +165,7 @@ def ticker_price_list():
     return jsonify({
         "data": result
     })
+
 
 @app.route('/get-price-single24', methods=['GET'])
 def ticker_price_single24():
@@ -161,6 +180,7 @@ def ticker_price_single24():
         "data": result
     })
 
+
 @app.route('/get-price-list24', methods=['GET'])
 def ticker_price_list24():
     # SPOT #
@@ -173,6 +193,7 @@ def ticker_price_list24():
     return jsonify({
         "data": result
     })
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
