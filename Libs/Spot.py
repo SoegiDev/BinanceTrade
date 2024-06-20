@@ -40,7 +40,7 @@ class Spot:
             d_asset = result['balances'][asset]['asset']
             d_free = result['balances'][asset]['free']
             d_locked = result['balances'][asset]['locked']
-            return {"asset": d_asset, "free": d_free, "locked": d_locked}
+            return {"asset": d_asset, "free": d_free, "locked": d_locked, "update_time":result['updateTime']}
         except Exception as e:
             print(str(e))
             return None
