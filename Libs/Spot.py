@@ -10,7 +10,7 @@ load_dotenv()
 
 
 class Spot:
-    BASEURL = os.getenv("BASEURL")
+    BASEURL = os.getenv("BASEURL_DEV")
 
     def __init__(self, key, secret):
         self.key = key
@@ -18,13 +18,29 @@ class Spot:
 
     def account_info(self):
         client = Client(api_key=self.key, api_secret=self.secret)
-        if os.getenv("ENV")=="dev":
+        if os.getenv("ENV") == "dev":
             client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         # Get server timestamp
         try:
             result = client.account()
             print(result)
             return result
+        except Exception as e:
+            print(str(e))
+            return None
+
+    def account_info_single(self,asset):
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        # Get server timestamp
+        try:
+            result = client.account()
+            result['balances'] = {item['asset']: item for item in result['balances']}
+            d_asset = result['balances'][asset]['asset']
+            d_free = result['balances'][asset]['free']
+            d_locked = result['balances'][asset]['locked']
+            return {"asset": d_asset, "free": d_free, "locked": d_locked}
         except Exception as e:
             print(str(e))
             return None
@@ -68,14 +84,14 @@ class Spot:
             result = None
             return result
 
-    def make_orders(self, symbol,side,type,quantity,price,stop_price):
+    def make_orders(self, symbol, side, type, quantity, price, stop_price):
         client = Client(api_key=self.key, api_secret=self.secret)
         if os.getenv("ENV") == "dev":
             client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
-            params = {"quantity": quantity,"price": price,"stopPrice": stop_price}
+            params = {"quantity": quantity, "price": price, "stopPrice": stop_price}
             query = urlencode(params)
-            result = client.new_order(symbol, side=side, type=type, quantity=quantity,price= price,timeInForce= "GTC")
+            result = client.new_order(symbol, side=side, type=type, quantity=quantity, price=price, timeInForce="GTC")
             print(result)
             return result
         except Exception as e:

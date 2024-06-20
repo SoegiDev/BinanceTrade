@@ -38,7 +38,21 @@ def account_info():
     result = data.account_info()
     # print(data)
     return jsonify({
-        "message": result
+        "data": result
+    })
+
+
+@app.route('/account-info-single', methods=['GET'])
+def account_info_single():
+    # SPOT #
+    key = request.args.get('key')
+    secret = request.args.get('secret')
+    asset = request.args.get('asset')
+    data = Spot(key, secret)
+    result = data.account_info_single(asset)
+    # print(data)
+    return jsonify({
+        "data": result
     })
 
 
@@ -53,7 +67,7 @@ def get_orders():
     result = data.order_all(symbol, limit)
     # print(data)
     return jsonify({
-        "message": result
+        "data": result
     })
 
 
