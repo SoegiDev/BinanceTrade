@@ -194,7 +194,6 @@ def ticker_price_single24():
         "data": result
     })
 
-
 @app.route('/get-price-list24', methods=['GET'])
 def ticker_price_list24():
     # SPOT #
