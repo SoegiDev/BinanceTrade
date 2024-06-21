@@ -134,11 +134,13 @@ class Spot:
             query = urlencode(params)
             result = client.new_order(symbol, side=side, type=type, quantity=quantity, price=price, timeInForce="GTC")
             print(result)
-            return result
+            hasil = {'code':200,"message":"Berhasil Order","result": result}
+            return hasil
         except Exception as e:
             print(str(e))  # An exception occurred: ZeroDivisionError
             result = "Total nilai order harus lebih dari 5 USDT."
-            return result
+            hasil = {'code': 400, "message": result, "result": None}
+            return hasil
 
     def ticker_price_single(self, symbol):
         client = Client(api_key=self.key, api_secret=self.secret)
