@@ -137,7 +137,7 @@ class Spot:
             return result
         except Exception as e:
             print(str(e))  # An exception occurred: ZeroDivisionError
-            result = None
+            result = "Total nilai order harus lebih dari 5 USDT."
             return result
 
     def ticker_price_single(self, symbol):
