@@ -183,7 +183,7 @@ class Spot:
         if os.getenv("ENV") == "dev":
             client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
-            result = client.ticker_24hr()
+            result = client.ticker_24hr(symbols=symbols)
             print(symbols)
             return result
         except Exception as e:
