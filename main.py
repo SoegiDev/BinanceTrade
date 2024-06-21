@@ -52,6 +52,19 @@ def account_info_single():
     asset = request.args.get('asset')
     data = Spot(key, secret)
     result = data.account_info_single(asset)
+    return jsonify({
+        "data": result
+    })
+
+
+@app.route('/symbol-list', methods=['GET'])
+def symbol_list():
+    # SPOT #
+    key = request.args.get('key')
+    secret = request.args.get('secret')
+    asset = request.args.get('asset')
+    data = Spot(key, secret)
+    result = data.symbol_list(asset)
     # print(data)
     return jsonify({
         "data": result
@@ -158,9 +171,10 @@ def ticker_price_list():
     # SPOT #
     key = request.args.get('key')
     secret = request.args.get('secret')
-    symbols = request.args.get('symbols')
+    symbol = request.args.get('symbol')
     data = Spot(key, secret)
-    result = data.ticker_price_list(symbols)
+    data_symbol = data.symbol_list(symbol)
+    result = data.ticker_price_list(data_symbol)
     # print(data)
     return jsonify({
         "data": result
@@ -186,9 +200,10 @@ def ticker_price_list24():
     # SPOT #
     key = request.args.get('key')
     secret = request.args.get('secret')
-    symbols = request.args.get('symbols')
+    symbol = request.args.get('symbol')
     data = Spot(key, secret)
-    result = data.ticker_price_list24(symbols)
+    data_symbol = data.symbol_list(symbol)
+    result = data.ticker_price_list24(data_symbol)
     # print(data)
     return jsonify({
         "data": result

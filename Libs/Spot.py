@@ -29,7 +29,7 @@ class Spot:
             print(str(e))
             return None
 
-    def account_info_single(self,asset):
+    def account_info_single(self, asset):
         client = Client(api_key=self.key, api_secret=self.secret)
         if os.getenv("ENV") == "dev":
             client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
@@ -40,7 +40,36 @@ class Spot:
             d_asset = result['balances'][asset]['asset']
             d_free = result['balances'][asset]['free']
             d_locked = result['balances'][asset]['locked']
-            return {"asset": d_asset, "free": d_free, "locked": d_locked, "update_time":result['updateTime']}
+            return {"asset": d_asset, "free": d_free, "locked": d_locked, "update_time": result['updateTime']}
+        except Exception as e:
+            print(str(e))
+            return None
+
+    def symbol_list(self, asset):
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        # Get server timestamp
+        usdt = []
+        count = 20
+        try:
+            result = client.exchange_info(permissions=["SPOT"])
+            data = result['symbols'];
+            for i in range(len(data)):
+                if data[i]['symbol'].endswith(asset):
+                    usdt.append(data[i]['symbol'])
+                    if len(usdt) == count:
+                        break
+
+            length = len(usdt)
+            # if i == length:
+            #     break
+            # for s in result['symbols']:
+            #     if s['symbol'].endswith('USDT'):
+            #         usdt.append(s['symbol'])
+            print(usdt)
+            print(length)
+            return usdt
         except Exception as e:
             print(str(e))
             return None
@@ -129,7 +158,7 @@ class Spot:
         if os.getenv("ENV") == "dev":
             client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
         try:
-            result = client.ticker_price()
+            result = client.ticker_price(symbols=symbols)
             print(symbols)
             return result
         except Exception as e:
