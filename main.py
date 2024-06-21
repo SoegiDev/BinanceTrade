@@ -198,15 +198,27 @@ def ticker_price_single24():
 @app.route('/get-price-list24', methods=['GET'])
 def ticker_price_list24():
     # SPOT #
+    list_s = []
     key = request.args.get('key')
     secret = request.args.get('secret')
     symbol = request.args.get('symbol')
     data = Spot(key, secret)
     data_symbol = data.symbol_list(symbol)
     result = data.ticker_price_list24(data_symbol)
+    for pet in result:
+        list_s.append(pet)
+    for i in range(len(list_s)):
+        list_s[i]['agg'] = data.agg_trades(list_s[i]['symbol'])[0]
+    # for i, pet11 in enumerate(list_s):
+    #     list_s[i]['detail'] = pet11[i]['symbol']
+    #     list_s.append(list_s[i]['detail'])
+    # for i, x in enumerate(list_s):
+    #     list_s[i]['detail'] = x[i]['symbol']
+    #     list_s.append(list_s[i]['detail'] )
+    # DD= data.agg_trades('DOGEUSDT')
     # print(data)
     return jsonify({
-        "data": result
+        "data": list_s
     })
 
 

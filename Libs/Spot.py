@@ -189,3 +189,16 @@ class Spot:
         except Exception as e:
             print(str(e))  # An exception occurred: ZeroDivisionError
             return None
+
+    def agg_trades(self, symbol):
+        params = None
+        client = Client(api_key=self.key, api_secret=self.secret)
+        if os.getenv("ENV") == "dev":
+            client = Client(api_key=self.key, api_secret=self.secret, base_url=self.BASEURL)
+        try:
+            result = client.agg_trades(symbol=symbol,limit=1)
+            print(result)
+            return result
+        except Exception as e:
+            print(str(e))  # An exception occurred: ZeroDivisionError
+            return None
